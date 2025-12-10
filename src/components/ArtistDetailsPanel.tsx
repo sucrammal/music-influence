@@ -24,21 +24,21 @@ export default function ArtistDetailsPanel({ artist, onRecenter, onClose }: Arti
                 ✕
             </button>
 
-            <div className="mt-8">
+            <div className="mt-8 flex flex-col h-full">
                 {artist.imageUrl && (
                     <img
                         src={artist.imageUrl}
                         alt={artist.name}
-                        className="w-full h-48 object-cover rounded-md mb-4 shadow-sm"
+                        className="w-full h-64 object-cover rounded-md mb-6 shadow-md"
                     />
                 )}
 
-                <h2 className="text-2xl font-serif font-bold text-gray-900 mb-2">{artist.name}</h2>
+                <h2 className="text-3xl font-serif font-bold text-gray-900 mb-4">{artist.name}</h2>
 
-                <div className="flex gap-2 mb-6">
+                <div className="flex flex-col gap-3 mb-6">
                     <button
                         onClick={() => onRecenter(artist.slug)}
-                        className="flex-1 bg-black text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
+                        className="w-full bg-black text-white py-3 px-4 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors shadow-sm"
                     >
                         Recenter Graph
                     </button>
@@ -48,16 +48,16 @@ export default function ArtistDetailsPanel({ artist, onRecenter, onClose }: Arti
                             href={artist.wikiUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-md text-sm font-medium text-center hover:bg-gray-50 transition-colors"
+                            className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-md text-sm font-medium text-center hover:bg-gray-50 transition-colors"
                         >
-                            Wikipedia
+                            View on Wikipedia
                         </a>
                     )}
                 </div>
 
                 {artist.summary && (
-                    <div className="prose prose-sm text-gray-600">
-                        <p>{artist.summary}</p>
+                    <div className="prose prose-sm text-gray-600 flex-1 overflow-y-auto pr-2">
+                        <p className="leading-relaxed">{artist.summary}</p>
                     </div>
                 )}
             </div>

@@ -28,9 +28,10 @@ interface GraphData {
 interface ArtistGraphProps {
     data: GraphData;
     onNodeClick: (node: GraphNode) => void;
+    selectedNode?: GraphNode | null;
 }
 
-export default function ArtistGraph({ data, onNodeClick }: ArtistGraphProps) {
+export default function ArtistGraph({ data, onNodeClick, selectedNode }: ArtistGraphProps) {
     const graphRef = useRef<any>();
     const containerRef = useRef<HTMLDivElement>(null);
     const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
@@ -103,6 +104,46 @@ export default function ArtistGraph({ data, onNodeClick }: ArtistGraphProps) {
                 cooldownTicks={100}
                 d3AlphaDecay={0.02}
                 d3VelocityDecay={0.3}
+                nodeCanvasObjectMode={() => 'after'}
+                nodeCanvasObject={(node: any, ctx, globalScale) => {
+                    const label = node.name;
+                    const fontSize = 12 / globalScale;
+                    const isSelected = selectedNode && node.id === selectedNode.id;
+
+                    // Match the nodeRelSize={8} passed to ForceGraph2D
+                    // Default radius is Math.sqrt(val) * relSize
+                    const radius = Math.sqrt(node.val || 1) * 8;
+
+                    // Draw Selection Ring
+                    if (isSelected) {
+                        ctx.beginPath();
+                        ctx.arc(node.x, node.y, radius * 1.2, 0, 2 * Math.PI, false);
+                        ctx.strokeStyle = '#fbbf24'; // Amber border
+                        ctx.lineWidth = 3 / globalScale;
+                        ctx.stroke();
+
+                        // Optional: Inner glow
+                        ctx.beginPath();
+                        ctx.arc(node.x, node.y, radius * 1.2, 0, 2 * Math.PI, false);
+                        ctx.fillStyle = 'rgba(251, 191, 36, 0.2)';
+                        ctx.fill();
+                    }
+
+                    // Draw Label
+                    // Only draw label if selected or zoomed in or root
+                    if (isSelected || globalScale > 1.5 || node.depth === 0) {
+                        ctx.font = `${fontSize}px Sans-Serif`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = 'black';
+
+                        // Add a small white stroke for readability against edges
+                        ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+                        ctx.lineWidth = 2 / globalScale;
+                        ctx.strokeText(label, node.x, node.y + radius + fontSize);
+                        ctx.fillText(label, node.x, node.y + radius + fontSize);
+                    }
+                }}
             />
         </div>
     );

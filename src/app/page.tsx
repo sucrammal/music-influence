@@ -56,7 +56,9 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-4 bg-white text-gray-900 font-sans">
       <header className="w-full max-w-5xl flex flex-col items-center mb-6 mt-4">
-        <h1 className="text-4xl font-serif font-bold mb-2 tracking-tight">Music Influence Graph</h1>
+        <h1 className="text-4xl font-serif font-bold mb-2 tracking-tight flex items-center gap-3">
+          <span className="text-3xl">🎵</span> Music Influence Graph
+        </h1>
         <p className="text-gray-500 mb-6 font-light">Explore the connections between your favorite artists.</p>
 
         <div className="w-full max-w-md mb-4">
@@ -66,30 +68,37 @@ export default function Home() {
         {/* Controls */}
         <div className="flex items-center gap-4 text-sm">
           <div className="flex items-center gap-2">
-            <span className="text-gray-500">Depth:</span>
-            <select
-              value={depth}
-              onChange={(e) => setDepth(Number(e.target.value))}
-              className="border border-gray-300 rounded px-2 py-1 bg-white focus:outline-none focus:ring-1 focus:ring-blue-500"
-            >
-              <option value={1}>1 (Direct)</option>
-              <option value={2}>2 (Friends of Friends)</option>
-              <option value={3}>3 (Deep)</option>
-            </select>
+            <span className="text-gray-500 font-medium">Depth:</span>
+            <div className="relative">
+              <select
+                value={depth}
+                onChange={(e) => setDepth(Number(e.target.value))}
+                className="appearance-none border border-gray-300 rounded-md pl-3 pr-8 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent shadow-sm cursor-pointer"
+              >
+                <option value={1}>1 (Direct)</option>
+                <option value={2}>2 (Friends of Friends)</option>
+                <option value={3}>3 (Deep Dive)</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </header>
 
       <div className="relative w-full max-w-6xl h-[600px] min-h-[500px]">
         {loading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+          <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10 backdrop-blur-sm">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
           </div>
         )}
 
         {error && (
           <div className="absolute inset-0 flex items-center justify-center z-10">
-            <div className="bg-red-50 text-red-600 p-4 rounded-md border border-red-200">
+            <div className="bg-red-50 text-red-600 p-4 rounded-md border border-red-200 shadow-lg">
               {error}
             </div>
           </div>
@@ -98,6 +107,7 @@ export default function Home() {
         <ArtistGraph
           data={graphData}
           onNodeClick={handleNodeClick}
+          selectedNode={selectedArtist}
         />
 
         <ArtistDetailsPanel
