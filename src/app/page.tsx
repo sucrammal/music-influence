@@ -12,10 +12,10 @@ import ArtistDetailsPanel from '@/components/ArtistDetailsPanel';
 
 // Theme Definitions
 const THEMES = {
-  default: { name: 'Default', colors: { depth0: '#ef4444', depth1: '#3b82f6', depth2: '#9ca3af' } },
-  ocean: { name: 'Ocean', colors: { depth0: '#0ea5e9', depth1: '#22d3ee', depth2: '#94a3b8' } },
-  sunset: { name: 'Sunset', colors: { depth0: '#f97316', depth1: '#ec4899', depth2: '#a855f7' } },
-  forest: { name: 'Forest', colors: { depth0: '#10b981', depth1: '#84cc16', depth2: '#14532d' } },
+  default: { name: 'Default', colors: { depth0: '#ef4444', depth1: '#3b82f6', depth2: '#9ca3af', depth3: '#d1d5db' } },
+  ocean: { name: 'Ocean', colors: { depth0: '#0ea5e9', depth1: '#22d3ee', depth2: '#94a3b8', depth3: '#cbd5e1' } },
+  sunset: { name: 'Sunset', colors: { depth0: '#f97316', depth1: '#ec4899', depth2: '#a855f7', depth3: '#d8b4fe' } },
+  forest: { name: 'Forest', colors: { depth0: '#10b981', depth1: '#84cc16', depth2: '#14532d', depth3: '#86efac' } },
 };
 
 export default function Home() {
@@ -124,6 +124,7 @@ export default function Home() {
                         <div className="w-3 h-3 rounded-full" style={{ backgroundColor: theme.colors.depth0 }}></div>
                         <div className="w-3 h-3 rounded-full" style={{ backgroundColor: theme.colors.depth1 }}></div>
                         <div className="w-3 h-3 rounded-full" style={{ backgroundColor: theme.colors.depth2 }}></div>
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: theme.colors.depth3 }}></div>
                       </div>
                       {theme.name}
                     </button>

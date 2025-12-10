@@ -2,8 +2,8 @@ import { prisma } from '@/lib/db';
 import { fetchArtistPageBySlug } from '@/lib/wiki/fetchArtistPage';
 import { fetchInfluencesForArtist } from '@/lib/wiki/fetchInfluences';
 
-const MAX_NODES = 150;
-const MAX_EDGES = 300;
+const MAX_NODES = 200;
+const MAX_EDGES = 450;
 const MAX_INFLUENCES_PER_ARTIST = 10;
 
 interface GraphNode {

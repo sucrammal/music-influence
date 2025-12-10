@@ -29,6 +29,7 @@ export interface ColorTheme {
     depth0: string;
     depth1: string;
     depth2: string;
+    depth3: string;
 }
 
 interface ArtistGraphProps {
@@ -42,7 +43,7 @@ export default function ArtistGraph({
     data,
     onNodeClick,
     selectedNode,
-    colorTheme = { depth0: '#ef4444', depth1: '#3b82f6', depth2: '#9ca3af' } // Default theme
+    colorTheme = { depth0: '#ef4444', depth1: '#3b82f6', depth2: '#9ca3af', depth3: '#d1d5db' } // Default theme
 }: ArtistGraphProps) {
     const graphRef = useRef<any>();
     const containerRef = useRef<HTMLDivElement>(null);
@@ -93,7 +94,9 @@ export default function ArtistGraph({
 
             // Slight delay to allow render then zoom
             setTimeout(() => {
-                graphRef.current.zoomToFit(400, 50);
+                if (graphRef.current) {
+                    graphRef.current.zoomToFit(400, 50);
+                }
             }, 200);
         }
     }, [data]);
@@ -106,9 +109,9 @@ export default function ArtistGraph({
                 width={dimensions.width}
                 height={dimensions.height}
                 graphData={displayData}
-                nodeLabel="name"
+                // nodeLabel="name" // Removed to prevent duplicate tooltip
                 nodeColor={(node: any) => {
-                    return node.depth === 0 ? colorTheme.depth0 : (node.depth === 1 ? colorTheme.depth1 : colorTheme.depth2);
+                    return node.depth === 0 ? colorTheme.depth0 : (node.depth === 1 ? colorTheme.depth1 : (node.depth === 2 ? colorTheme.depth2 : colorTheme.depth3));
                 }}
                 nodeRelSize={8}
                 linkColor={() => '#cbd5e1'}
@@ -144,8 +147,8 @@ export default function ArtistGraph({
                     }
 
                     // Draw Label
-                    // Only draw label if selected or zoomed in or root
-                    if (isSelected || globalScale > 1.5 || node.depth === 0) {
+                    // Always show for Depth 0 & 1. Show for others if selected or zoomed in.
+                    if (isSelected || node.depth <= 1 || globalScale > 1.2) {
                         ctx.font = `${fontSize}px Sans-Serif`;
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle';
