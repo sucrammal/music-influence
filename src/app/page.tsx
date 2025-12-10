@@ -64,77 +64,79 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-4 bg-white text-gray-900 font-sans" onClick={() => setShowThemeMenu(false)}>
-      <header className="w-full max-w-5xl flex flex-col items-center mb-6 mt-4">
-        <h1 className="text-4xl font-serif font-bold mb-2 tracking-tight flex items-center gap-3">
-          <span className="text-3xl">🎵</span> Music Influence Graph
-        </h1>
-        <p className="text-gray-500 mb-6 font-light">Explore the connections between your favorite artists.</p>
+    <main className="h-screen w-screen flex flex-col bg-white text-gray-900 font-sans overflow-hidden" onClick={() => setShowThemeMenu(false)}>
+      {/* Header Section - Compressed */}
+      <header className="flex-shrink-0 w-full border-b border-gray-100 bg-white/95 backdrop-blur-sm z-20 px-4 py-3 shadow-sm">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 md:gap-6">
 
-        <div className="w-full max-w-md mb-4">
-          <ArtistSearchBar onSelectArtist={handleSelectArtist} />
-        </div>
+          {/* Title & Logo */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <span className="text-2xl">🎵</span>
+            <h1 className="text-xl md:text-2xl font-serif font-bold tracking-tight whitespace-nowrap">
+              Music Influence
+            </h1>
+          </div>
 
-        {/* Controls */}
-        <div className="flex items-center gap-4 text-sm relative" onClick={(e) => e.stopPropagation()}>
-          <div className="flex items-center gap-2">
-            <span className="text-gray-500 font-medium">Depth:</span>
-            <div className="relative">
+          {/* Search Bar */}
+          <div className="w-full max-w-md flex-grow">
+            <ArtistSearchBar onSelectArtist={handleSelectArtist} />
+          </div>
+
+          {/* Controls */}
+          <div className="flex items-center gap-3 text-sm flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-2 bg-gray-50 px-2 py-1 rounded-md border border-gray-200">
+              <span className="text-gray-500 font-medium hidden sm:inline">Depth:</span>
               <select
                 value={depth}
                 onChange={(e) => setDepth(Number(e.target.value))}
-                className="appearance-none border border-gray-300 rounded-md pl-3 pr-8 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent shadow-sm cursor-pointer"
+                className="bg-transparent font-medium focus:outline-none cursor-pointer text-gray-700"
               >
                 <option value={1}>1 (Direct)</option>
-                <option value={2}>2 (Friends of Friends)</option>
-                <option value={3}>3 (Deep Dive)</option>
+                <option value={2}>2 (Friends)</option>
+                <option value={3}>3 (Deep)</option>
               </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
             </div>
-          </div>
 
-          {/* Theme Toggle */}
-          <div className="relative">
-            <button
-              onClick={() => setShowThemeMenu(!showThemeMenu)}
-              className="flex items-center gap-2 px-3 py-1.5 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors shadow-sm"
-              title="Customize Colors"
-            >
-              <div className="flex gap-1">
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: THEMES[currentTheme].colors.depth0 }}></div>
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: THEMES[currentTheme].colors.depth1 }}></div>
-              </div>
-              <span className="text-gray-600 font-medium">Palette</span>
-            </button>
+            {/* Theme Toggle */}
+            <div className="relative">
+              <button
+                onClick={() => setShowThemeMenu(!showThemeMenu)}
+                className="flex items-center gap-2 px-2 py-1 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors bg-white"
+                title="Customize Colors"
+              >
+                <div className="flex gap-0.5">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: THEMES[currentTheme].colors.depth0 }}></div>
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: THEMES[currentTheme].colors.depth1 }}></div>
+                </div>
+                <span className="text-gray-600 font-medium hidden sm:inline">Theme</span>
+              </button>
 
-            {showThemeMenu && (
-              <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 p-2 z-50 animate-in fade-in zoom-in-95 duration-100">
-                <div className="text-xs font-semibold text-gray-400 mb-2 px-2 uppercase tracking-wider">Select Theme</div>
-                {Object.entries(THEMES).map(([key, theme]) => (
-                  <button
-                    key={key}
-                    onClick={() => { setCurrentTheme(key as any); setShowThemeMenu(false); }}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${currentTheme === key ? 'bg-gray-100 text-black font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
-                  >
-                    <div className="flex gap-1">
-                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: theme.colors.depth0 }}></div>
-                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: theme.colors.depth1 }}></div>
-                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: theme.colors.depth2 }}></div>
-                    </div>
-                    {theme.name}
-                  </button>
-                ))}
-              </div>
-            )}
+              {showThemeMenu && (
+                <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 p-2 z-50 animate-in fade-in zoom-in-95 duration-100">
+                  <div className="text-xs font-semibold text-gray-400 mb-2 px-2 uppercase tracking-wider">Select Theme</div>
+                  {Object.entries(THEMES).map(([key, theme]) => (
+                    <button
+                      key={key}
+                      onClick={() => { setCurrentTheme(key as any); setShowThemeMenu(false); }}
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${currentTheme === key ? 'bg-gray-100 text-black font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
+                    >
+                      <div className="flex gap-1">
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: theme.colors.depth0 }}></div>
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: theme.colors.depth1 }}></div>
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: theme.colors.depth2 }}></div>
+                      </div>
+                      {theme.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="relative w-full max-w-6xl h-[600px] min-h-[500px]">
+      {/* Main Content Area - Fills remaining height */}
+      <div className="flex-1 relative w-full min-h-0 bg-gray-50">
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10 backdrop-blur-sm">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black"></div>
@@ -142,20 +144,24 @@ export default function Home() {
         )}
 
         {error && (
-          <div className="absolute inset-0 flex items-center justify-center z-10">
-            <div className="bg-red-50 text-red-600 p-4 rounded-md border border-red-200 shadow-lg">
+          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+            <div className="bg-red-50 text-red-600 p-4 rounded-md border border-red-200 shadow-lg pointer-events-auto">
               {error}
             </div>
           </div>
         )}
 
-        <ArtistGraph
-          data={graphData}
-          onNodeClick={handleNodeClick}
-          selectedNode={selectedArtist}
-          colorTheme={THEMES[currentTheme].colors}
-        />
+        {/* Graph Container */}
+        <div className="absolute inset-0 w-full h-full">
+          <ArtistGraph
+            data={graphData}
+            onNodeClick={handleNodeClick}
+            selectedNode={selectedArtist}
+            colorTheme={THEMES[currentTheme].colors}
+          />
+        </div>
 
+        {/* Floating Details Panel */}
         <ArtistDetailsPanel
           artist={selectedArtist}
           onRecenter={(slug) => handleSelectArtist(slug)}
@@ -163,9 +169,10 @@ export default function Home() {
         />
       </div>
 
-      <footer className="mt-8 text-sm text-gray-400">
+      {/* Footer - Minimal */}
+      <footer className="flex-shrink-0 py-1 px-4 text-xs text-gray-400 text-center border-t border-gray-100 bg-white">
         Data provided by Wikipedia. Built with Next.js & Prisma.
       </footer>
-    </main >
+    </main>
   );
 }

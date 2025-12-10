@@ -99,7 +99,7 @@ export default function ArtistGraph({
     }, [data]);
 
     return (
-        <div ref={containerRef} className="w-full h-full border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
+        <div ref={containerRef} className="w-full h-full overflow-hidden bg-gray-50">
             <ForceGraph2D
                 key={graphKey} // Force remount when root artist changes
                 ref={graphRef}

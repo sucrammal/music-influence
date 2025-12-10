@@ -60,7 +60,7 @@ export default function ArtistSearchBar({ onSelectArtist }: ArtistSearchBarProps
         <div ref={wrapperRef} className="relative w-full max-w-md mx-auto z-50">
             <input
                 type="text"
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans"
+                className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans text-sm"
                 placeholder="Search for an artist..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
