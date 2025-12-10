@@ -25,13 +25,25 @@ interface GraphData {
     links: GraphLink[];
 }
 
+export interface ColorTheme {
+    depth0: string;
+    depth1: string;
+    depth2: string;
+}
+
 interface ArtistGraphProps {
     data: GraphData;
     onNodeClick: (node: GraphNode) => void;
     selectedNode?: GraphNode | null;
+    colorTheme?: ColorTheme;
 }
 
-export default function ArtistGraph({ data, onNodeClick, selectedNode }: ArtistGraphProps) {
+export default function ArtistGraph({
+    data,
+    onNodeClick,
+    selectedNode,
+    colorTheme = { depth0: '#ef4444', depth1: '#3b82f6', depth2: '#9ca3af' } // Default theme
+}: ArtistGraphProps) {
     const graphRef = useRef<any>();
     const containerRef = useRef<HTMLDivElement>(null);
     const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
@@ -64,7 +76,7 @@ export default function ArtistGraph({ data, onNodeClick, selectedNode }: ArtistG
         nodes: data.nodes.map(n => ({
             ...n,
             val: n.depth === 0 ? 30 : (n.depth === 1 ? 15 : 8), // Increased sizes
-            color: n.depth === 0 ? '#ef4444' : (n.depth === 1 ? '#3b82f6' : '#9ca3af'),
+            color: n.depth === 0 ? colorTheme.depth0 : (n.depth === 1 ? colorTheme.depth1 : colorTheme.depth2),
         })),
         links: data.links.map(l => ({ ...l })),
     };
