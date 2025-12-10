@@ -20,7 +20,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
 
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-poppins);
   --font-serif: var(--font-playfair);
 }
 

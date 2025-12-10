@@ -153,12 +153,19 @@ export default function Home() {
 
         {/* Graph Container */}
         <div className="absolute inset-0 w-full h-full">
-          <ArtistGraph
-            data={graphData}
-            onNodeClick={handleNodeClick}
-            selectedNode={selectedArtist}
-            colorTheme={THEMES[currentTheme].colors}
-          />
+          {!loading && graphData.nodes.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full text-gray-400">
+              <span className="text-4xl mb-4">🎵</span>
+              <p className="text-lg font-medium">Search for an artist to view their influence graph</p>
+            </div>
+          ) : (
+            <ArtistGraph
+              data={graphData}
+              onNodeClick={handleNodeClick}
+              selectedNode={selectedArtist}
+              colorTheme={THEMES[currentTheme].colors}
+            />
+          )}
         </div>
 
         {/* Floating Details Panel */}

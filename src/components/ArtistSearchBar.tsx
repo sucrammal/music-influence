@@ -69,28 +69,28 @@ export default function ArtistSearchBar({ onSelectArtist }: ArtistSearchBarProps
                     if (e.key === 'Enter') {
                         if (results.length > 0) {
                             handleSelect(results[0].slug);
-                        } else if (query.length > 0) {
-                            // Fallback: try to search for exactly what was typed
-                            // We assume the user might know the exact name or close to it.
-                            // We'll slugify it simply and try.
-                            const fallbackSlug = query.trim().replace(/ /g, '_');
-                            handleSelect(fallbackSlug);
                         }
                     }
                 }}
             />
 
-            {isOpen && results.length > 0 && (
+            {isOpen && query.length >= 2 && (
                 <ul className="absolute w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                    {results.map((result) => (
-                        <li
-                            key={result.slug}
-                            className="p-3 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-none"
-                            onClick={() => handleSelect(result.slug)}
-                        >
-                            <div className="font-medium text-gray-800">{result.name}</div>
+                    {results.length > 0 ? (
+                        results.map((result) => (
+                            <li
+                                key={result.slug}
+                                className="p-3 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-none"
+                                onClick={() => handleSelect(result.slug)}
+                            >
+                                <div className="font-medium text-gray-800">{result.name}</div>
+                            </li>
+                        ))
+                    ) : (
+                        <li className="p-3 text-gray-500 text-sm text-center">
+                            No matches found
                         </li>
-                    ))}
+                    )}
                 </ul>
             )}
         </div>
