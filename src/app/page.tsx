@@ -163,7 +163,7 @@ export default function Home() {
 
         {/* Floating Details Panel */}
         <ArtistDetailsPanel
-          artist={selectedArtist}
+          artist={selectedArtist ? { ...selectedArtist, slug: selectedArtist.id } : null}
           onRecenter={(slug) => handleSelectArtist(slug)}
           onClose={() => setSelectedArtist(null)}
         />

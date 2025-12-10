@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 
 // Dynamic import for client-side only rendering
 const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { ssr: false });
@@ -71,15 +71,15 @@ export default function ArtistGraph({
         return () => observer.disconnect();
     }, []);
 
-    // Process data for display
-    const displayData = {
+    // Process data for display - Memoize to prevent recreation on every render (like theme changes)
+    const displayData = useMemo(() => ({
         nodes: data.nodes.map(n => ({
             ...n,
             val: n.depth === 0 ? 30 : (n.depth === 1 ? 15 : 8), // Increased sizes
-            color: n.depth === 0 ? colorTheme.depth0 : (n.depth === 1 ? colorTheme.depth1 : colorTheme.depth2),
+            // color removed here, handled by accessor
         })),
         links: data.links.map(l => ({ ...l })),
-    };
+    }), [data]);
 
     // Find root node for key (forces remount on new search)
     const rootNode = data.nodes.find(n => n.depth === 0);
@@ -107,7 +107,9 @@ export default function ArtistGraph({
                 height={dimensions.height}
                 graphData={displayData}
                 nodeLabel="name"
-                nodeColor="color"
+                nodeColor={(node: any) => {
+                    return node.depth === 0 ? colorTheme.depth0 : (node.depth === 1 ? colorTheme.depth1 : colorTheme.depth2);
+                }}
                 nodeRelSize={8}
                 linkColor={() => '#cbd5e1'}
                 linkDirectionalArrowLength={3.5}
