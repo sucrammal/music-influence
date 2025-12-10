@@ -1,0 +1,33 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Artist {
+  id          Int       @id @default(autoincrement())
+  name        String
+  slug        String    @unique
+  wikiUrl     String?
+  summary     String?
+  imageUrl    String?
+  lastFetched DateTime?
+
+  // Relations
+  influencesGiven    Influence[] @relation("InfluencesGiven")
+  influencesReceived Influence[] @relation("InfluencesReceived")
+}
+
+model Influence {
+  id           Int    @id @default(autoincrement())
+  fromArtistId Int
+  toArtistId   Int
+  relationType String
+  source       String
+
+  fromArtist Artist @relation("InfluencesGiven", fields: [fromArtistId], references: [id])
+  toArtist   Artist @relation("InfluencesReceived", fields: [toArtistId], references: [id])
+}

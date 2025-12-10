@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  /* Minimal monochrome palette */
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* Subtle accents if needed */
+  --accent: #C5A059;
+  /* Muted Gold / Deep Bronze */
+  --accent-foreground: #ffffff;
+
+  --border: #e5e5e5;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+}
+
+/* Enforce light mode or consistent look */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif), serif;
+}
